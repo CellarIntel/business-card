@@ -414,11 +414,11 @@
                         +31 6 24412981
                     </a>
                     
-                    <a href="/cdn-cgi/l/email-protection#e98d889f808da98a8c8585889b80879d8c85c78a8684" class="contact-item">
+                    <a href="mailto:david@cellarintel.com" class="contact-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
-                        <span class="__cf_email__" data-cfemail="d3b7b2a5bab793b0b6bfbfb2a1babda7b6bffdb0bcbe">[email&#160;protected]</span>
+                        david@cellarintel.com
                     </a>
                 </div>
                 
@@ -449,7 +449,7 @@
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Handle loading animation
         const loadingScreen = document.getElementById('loadingScreen');
         const mainContent = document.getElementById('mainContent');
@@ -532,4 +532,14 @@ END:VCARD`;
         }
         
         function showToast(message) {
-            const toast = document.getElementById
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
