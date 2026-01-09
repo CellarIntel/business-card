@@ -531,27 +531,63 @@ END:VCARD`;
         }
         
         async function shareCard() {
+    // Try to share the contact file directly if supported
+    if (navigator.share && navigator.canShare) {
+        try {
+            // Create vCard data
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:David Phillips
+N:Phillips;David;;;
+EMAIL:david@cellarintel.com
+TEL:+31624412981
+TITLE:Founder
+ORG:CellarIntel
+URL:https://card.cellarintel.com
+END:VCARD`;
+            
+            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const file = new File([blob], 'david-phillips-cellarintel.vcf', { type: 'text/vcard' });
+            
             const shareData = {
                 title: 'David Phillips - CellarIntel',
-                text: 'Connect with David Phillips, Founder of CellarIntel - Wine Market Intelligence Platform',
-                url: 'https://card.cellarintel.com'
+                text: 'Connect with David Phillips, Founder of CellarIntel',
+                files: [file]
             };
             
-            // Check if native share is available (mobile)
-            if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                    showToast('Thanks for sharing! 🍷');
-                } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        copyToClipboard();
-                    }
-                }
-            } else {
-                // Fallback to clipboard (desktop)
+            // Check if we can share files
+            if (navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+                showToast('Thanks for sharing! 🍷');
+                return;
+            }
+        } catch (err) {
+            // If file sharing fails, fall through to URL sharing
+            if (err.name === 'AbortError') return;
+        }
+    }
+    
+    // Fallback to sharing URL
+    const urlShareData = {
+        title: 'David Phillips - CellarIntel',
+        text: 'Connect with David Phillips, Founder of CellarIntel - Wine Market Intelligence Platform',
+        url: 'https://card.cellarintel.com'
+    };
+    
+    if (navigator.share) {
+        try {
+            await navigator.share(urlShareData);
+            showToast('Thanks for sharing! 🍷');
+        } catch (err) {
+            if (err.name !== 'AbortError') {
                 copyToClipboard();
             }
         }
+    } else {
+        // Final fallback to clipboard (desktop)
+        copyToClipboard();
+    }
+}
         
         function copyToClipboard() {
             const url = 'https://card.cellarintel.com';
