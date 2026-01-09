@@ -358,10 +358,19 @@
         }
         
         @media (max-width: 480px) {
-            .card {
-                max-width: 100%;
-		padding: 25px 20px;
+            body {
+                align-items: flex-start;
+		padding: 20px;
             }
+
+	    .card {
+		max-width: 100%;
+		margin: 0 auto;
+	    }
+
+	    .header {
+		padding: 40px 20px 60px;
+	    }
 
 	    .content {
 		padding: 70px 20px 30px;
